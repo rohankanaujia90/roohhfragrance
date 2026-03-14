@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your shopping cart — Roohh Fragrances. Review your selected luxury perfumes and proceed to checkout." />
+  <title>Shopping Cart | Roohh Fragrances</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- ======= NAVBAR ======= -->
+  <nav id="navbar" class="scrolled">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-arabic">رُوح</span>
+        <span class="logo-text">ROOHH</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#home" class="nav-link">Home</a></li>
+        <li><a href="index.html#about" class="nav-link">Our Story</a></li>
+        <li><a href="index.html#bestsellers" class="nav-link">Bestsellers</a></li>
+        <li><a href="index.html#products" class="nav-link">Collection</a></li>
+        <li><a href="index.html#testimonials" class="nav-link">Reviews</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-icon-btn cart-link" aria-label="Shopping Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ======= CART PAGE ======= -->
+  <main class="cart-page">
+    <div class="cart-header-section">
+      <div class="container">
+        <p class="section-label">Your Selection</p>
+        <h1>Shopping <em>Cart</em></h1>
+        <a href="index.html#products" class="btn btn-outline" style="margin-top:16px;display:inline-flex;">
+          <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+        </a>
+      </div>
+    </div>
+
+    <div class="cart-body">
+      <div class="container">
+        <!-- Empty State -->
+        <div class="empty-cart hidden" id="emptyCart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <h3>Your cart is empty</h3>
+          <p>Looks like you haven't added any fragrances yet.</p>
+          <a href="index.html#products" class="btn btn-primary" style="margin-top:24px;">
+            <i class="fa-solid fa-sparkles"></i> Explore Collection
+          </a>
+        </div>
+
+        <!-- Cart Layout -->
+        <div class="cart-layout hidden" id="cartSummary">
+          <!-- Items -->
+          <div class="cart-items" id="cartItemsList">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Order Summary -->
+          <div class="order-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="subtotalVal">₹0</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span id="shippingVal">₹99</span>
+            </div>
+            <div class="summary-row">
+              <span style="font-size:0.78rem;color:var(--gold);">
+                <i class="fa-solid fa-truck"></i> Free shipping on orders ₹999+
+              </span>
+              <span></span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <span id="totalVal">₹0</span>
+            </div>
+
+            <div class="promo-input">
+              <input type="text" id="promoCode" placeholder="Promo code (ROOHH10)" />
+              <button class="btn btn-outline" style="padding:10px 16px;font-size:0.78rem;">Apply</button>
+            </div>
+
+            <button class="btn btn-primary full-width checkout-btn" id="checkoutBtn">
+              <i class="fa-solid fa-lock"></i> Proceed to Checkout
+            </button>
+
+            <div style="margin-top:20px;display:flex;align-items:center;gap:8px;justify-content:center;color:var(--text-muted);font-size:0.78rem;">
+              <i class="fa-solid fa-shield-halved" style="color:var(--gold);"></i>
+              Secure Checkout • SSL Encrypted
+            </div>
+
+            <div class="footer-pay" style="justify-content:center;margin-top:16px;font-size:1.5rem;">
+              <i class="fa-brands fa-cc-visa"></i>
+              <i class="fa-brands fa-cc-mastercard"></i>
+              <i class="fa-brands fa-cc-amex"></i>
+              <i class="fa-brands fa-google-pay"></i>
+            </div>
+
+            <!-- Guarantee -->
+            <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text-muted);">
+                <i class="fa-solid fa-rotate-left" style="color:var(--gold);width:18px;"></i>
+                <span>15-day hassle-free returns</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text-muted);">
+                <i class="fa-solid fa-truck-fast" style="color:var(--gold);width:18px;"></i>
+                <span>Delivered in 3–5 business days</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text-muted);">
+                <i class="fa-solid fa-gem" style="color:var(--gold);width:18px;"></i>
+                <span>100% authentic fragrances guaranteed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- You May Also Like -->
+        <div class="section-header" style="margin-top:80px;">
+          <p class="section-label">You May Also Like</p>
+          <h2 class="section-title">More <em>Fragrances</em></h2>
+        </div>
+        <div class="products-grid" id="suggestionsGrid" style="margin-bottom:60px;">
+          <!-- Rendered by JS -->
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ======= FOOTER ======= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <span class="logo-arabic">رُوح</span>
+            <span class="logo-text">ROOHH</span>
+          </a>
+          <p class="footer-desc">Handcrafted luxury fragrances that speak to the soul.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#bestsellers">Bestsellers</a></li>
+            <li><a href="index.html#products">Collection</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Roohh Fragrances. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======= PRODUCT MODAL ======= -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-card" id="modalCard">
+      <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-img">
+        <img src="" alt="" id="modalImg" />
+      </div>
+      <div class="modal-info">
+        <span class="modal-category" id="modalCategory"></span>
+        <h2 id="modalName"></h2>
+        <div class="modal-rating">
+          <span class="stars">★★★★★</span>
+          <span id="modalReviews"></span>
+        </div>
+        <p class="modal-price" id="modalPrice"></p>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-notes">
+          <div class="note-group"><span class="note-label">Top Notes</span><span id="modalTop"></span></div>
+          <div class="note-group"><span class="note-label">Heart Notes</span><span id="modalHeart"></span></div>
+          <div class="note-group"><span class="note-label">Base Notes</span><span id="modalBase"></span></div>
+        </div>
+        <div class="modal-size">
+          <span>Size:</span>
+          <button class="size-option active" data-size="30ml">30ml</button>
+          <button class="size-option" data-size="50ml">50ml</button>
+          <button class="size-option" data-size="100ml">100ml</button>
+        </div>
+        <div class="modal-qty">
+          <span>Qty:</span>
+          <div class="qty-control">
+            <button class="qty-btn" id="qtyMinus">−</button>
+            <span id="qtyVal">1</span>
+            <button class="qty-btn" id="qtyPlus">+</button>
+          </div>
+        </div>
+        <button class="btn btn-primary full-width" id="modalAddCart">
+          <i class="fa-solid fa-shopping-bag"></i> Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= TOAST ======= -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg"></span>
+  </div>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script src="script.js"></script>
+  <script>
+    // Render suggestions on cart page
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('suggestionsGrid');
+      if (grid) {
+        const suggestions = PRODUCTS.slice(0, 4);
+        suggestions.forEach(p => grid.appendChild(createProductCard(p)));
+      }
+    });
+  </script>
+</body>
+</html>
