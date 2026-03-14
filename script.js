@@ -5,7 +5,7 @@
 // ============================================
 // PRODUCT DATA
 // ============================================
-const PRODUCTS = [
+const DEFAULT_PRODUCTS = [
   {
     id: 1,
     name: "Oud Mystique",
@@ -119,6 +119,15 @@ const PRODUCTS = [
     size: "50ml"
   }
 ];
+
+// Load products from localStorage or use defaults
+let PRODUCTS = JSON.parse(localStorage.getItem('roohh_products')) || DEFAULT_PRODUCTS;
+
+// Help update products across the site
+function syncProducts(newProducts) {
+  PRODUCTS = newProducts;
+  localStorage.setItem('roohh_products', JSON.stringify(PRODUCTS));
+}
 
 // ============================================
 // CART UTILITIES
