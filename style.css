@@ -1460,3 +1460,85 @@ input { font-family: inherit; }
 @media print {
   #navbar, .back-to-top, .hero-scroll, .hero-particles, .marquee-strip, .newsletter { display: none; }
 }
+
+/* ==== AUTH MODAL STYLES ==== */
+.auth-card {
+  max-width: 400px !important;
+  text-align: center;
+}
+.auth-header {
+  margin-bottom: 24px;
+}
+.auth-logo img {
+  height: 40px;
+  margin-bottom: 12px;
+}
+.auth-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.auth-header p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.phone-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--dark-3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 16px;
+  margin-top: 8px;
+}
+.country-code {
+  color: var(--gold);
+  font-weight: 600;
+  margin-right: 12px;
+  border-right: 1px solid var(--border);
+  padding-right: 12px;
+}
+.phone-input-wrap input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  padding: 12px 0;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  outline: none;
+}
+.otp-field {
+  text-align: center !important;
+  font-size: 1.5rem !important;
+  letter-spacing: 0.5em !important;
+  padding: 16px !important;
+}
+.resend-text {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+#resendOtp {
+  background: none;
+  border: none;
+  color: var(--gold);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  margin-top: 8px;
+  cursor: pointer;
+}
+.btn-text:hover { color: var(--gold); }
+
+#userAuthBtn.logged-in i {
+  color: var(--gold);
+}
+
