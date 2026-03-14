@@ -129,6 +129,7 @@ function getCart() {
 function saveCart(cart) {
   localStorage.setItem('roohh_cart', JSON.stringify(cart));
   updateCartBadge();
+  window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { cart } }));
 }
 function addToCart(product, size = '50ml', qty = 1) {
   const cart = getCart();
@@ -654,13 +655,8 @@ function initCartPage() {
       cartItemsEl.appendChild(el);
     });
 
-    // Update totals
-    const shipping = subtotal >= 999 ? 0 : 99;
-    if (document.getElementById('subtotalVal')) {
-      document.getElementById('subtotalVal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
-      document.getElementById('shippingVal').textContent = shipping === 0 ? 'FREE' : `₹${shipping}`;
-      document.getElementById('totalVal').textContent = `₹${(subtotal + shipping).toLocaleString('en-IN')}`;
-    }
+    // Update totals (discount-aware)
+    updateOrderSummary(subtotal);
 
     // Remove handlers
     cartItemsEl.querySelectorAll('.cart-remove').forEach(btn => {
@@ -685,6 +681,7 @@ function initCartPage() {
           return i;
         });
         saveCart(newCart);
+        window.dispatchEvent(new Event('cartUpdated')); // Dispatch event after cart change
         renderCart();
       });
     });
@@ -692,9 +689,100 @@ function initCartPage() {
 
   renderCart();
 
-  // Promo code
-  document.querySelector('.promo-input .btn')?.addEventListener('click', () => {
-    showToast('Promo: Use code ROOHH10 for 10% off!');
+  // Auto-refresh when cart changes (e.g. added from suggestions below)
+  window.addEventListener('cartUpdated', renderCart);
+
+  // ---- PROMO CODE LOGIC ----
+  // Declared BEFORE renderCart() so updateOrderSummary() can safely reference them
+  const PROMO_CODES = {
+    'ROOHH10': { type: 'percent', value: 10,  label: '10% off' },
+    'ROOHH20': { type: 'percent', value: 20,  label: '20% off' },
+    'FLAT200':  { type: 'flat',    value: 200, label: '₹200 off' },
+  };
+
+  let activePromo = null;
+
+  renderCart();
+
+  function updateOrderSummary(subtotal) {
+    const discountRow = document.getElementById('discountRow');
+    const discountVal  = document.getElementById('discountVal');
+    const subtotalEl   = document.getElementById('subtotalVal');
+    const shippingEl   = document.getElementById('shippingVal');
+    const totalEl      = document.getElementById('totalVal');
+    if (!subtotalEl) return;
+
+    let discountAmt = 0;
+    if (activePromo && PROMO_CODES[activePromo]) {
+      const promo = PROMO_CODES[activePromo];
+      discountAmt = promo.type === 'percent'
+        ? Math.round(subtotal * promo.value / 100)
+        : Math.min(promo.value, subtotal);
+    }
+
+    const discounted = subtotal - discountAmt;
+    const shipping   = discounted >= 999 ? 0 : 99;
+    const total      = discounted + shipping;
+
+    subtotalEl.textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+    shippingEl.textContent = shipping === 0 ? 'FREE' : `₹${shipping}`;
+    totalEl.textContent    = `₹${total.toLocaleString('en-IN')}`;
+
+    if (discountAmt > 0 && discountRow && discountVal) {
+      discountRow.style.display = '';
+      discountVal.textContent   = `−₹${discountAmt.toLocaleString('en-IN')}`;
+    } else if (discountRow) {
+      discountRow.style.display = 'none';
+    }
+  }
+
+  const applyBtn   = document.getElementById('applyPromoBtn');
+  const promoInput = document.getElementById('promoCode');
+  const promoMsg   = document.getElementById('promoMsg');
+
+  applyBtn?.addEventListener('click', () => {
+    // Remove mode — user clicks 'Remove' to clear the active promo
+    if (applyBtn.dataset.mode === 'remove') {
+      activePromo = null;
+      applyBtn.textContent = 'Apply';
+      delete applyBtn.dataset.mode;
+      if (promoInput)  { promoInput.disabled = false; promoInput.value = ''; }
+      if (promoMsg)    { promoMsg.textContent = ''; }
+      const sub = getCart().reduce((acc, item) => {
+        const p = PRODUCTS.find(p => p.id === item.id);
+        return acc + (p ? p.price * item.qty : 0);
+      }, 0);
+      updateOrderSummary(sub);
+      return;
+    }
+
+    const code = promoInput?.value.trim().toUpperCase();
+    if (!code) {
+      promoMsg.style.color = '#e57373';
+      promoMsg.textContent = 'Please enter a promo code.';
+      return;
+    }
+    if (activePromo === code) {
+      promoMsg.style.color = '#e57373';
+      promoMsg.textContent = 'Code "' + code + '" is already applied.';
+      return;
+    }
+    if (PROMO_CODES[code]) {
+      activePromo = code;
+      promoMsg.style.color = '#4caf50';
+      promoMsg.textContent = '✓ Code "' + code + '" applied — ' + PROMO_CODES[code].label + '!';
+      if (promoInput) { promoInput.value = ''; promoInput.disabled = true; }
+      applyBtn.textContent = 'Remove';
+      applyBtn.dataset.mode = 'remove';
+      const sub = getCart().reduce((acc, item) => {
+        const p = PRODUCTS.find(p => p.id === item.id);
+        return acc + (p ? p.price * item.qty : 0);
+      }, 0);
+      updateOrderSummary(sub);
+    } else {
+      promoMsg.style.color = '#e57373';
+      promoMsg.textContent = 'Invalid code "' + code + '". Try ROOHH10.';
+    }
   });
 
   // Checkout btn

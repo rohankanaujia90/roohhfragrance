@@ -136,9 +136,8 @@ input { font-family: inherit; }
 #preloader.hidden { opacity: 0; visibility: hidden; }
 .preloader-inner { text-align: center; }
 .preloader-logo {
-  font-family: var(--font-serif);
-  font-size: 4rem;
-  color: var(--gold);
+  height: 12rem;
+  width: 12rem;
   animation: pulseGold 1.5s ease-in-out infinite;
 }
 .preloader-text {
@@ -201,19 +200,12 @@ input { font-family: inherit; }
   gap: 8px;
   flex-shrink: 0;
 }
-.logo-arabic {
-  font-family: var(--font-serif);
-  font-size: 1.8rem;
-  color: var(--gold);
-  line-height: 1;
+.logo img {
+  height: 14rem;
+  padding: 2rem;
+  padding-top: 3rem;
 }
-.logo-text {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.35em;
-  color: var(--text-main);
-  text-transform: uppercase;
-}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -1199,6 +1191,17 @@ input { font-family: inherit; }
 }
 .qty-btn:hover { background: var(--gold); color: var(--dark); }
 #qtyVal { width: 40px; text-align: center; font-size: 0.9rem; }
+.qty-control > span {
+  min-width: 40px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold);
+  background: var(--dark-4);
+  padding: 6px 4px;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
 
 /* =============================================
    TOAST

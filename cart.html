@@ -17,8 +17,7 @@
   <nav id="navbar" class="scrolled">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">
-        <span class="logo-arabic">رُوح</span>
-        <span class="logo-text">ROOHH</span>
+        <span class="logo"><img src="images/logo.png" alt=""></span>
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html#home" class="nav-link">Home</a></li>
@@ -82,6 +81,10 @@
               <span>Shipping</span>
               <span id="shippingVal">₹99</span>
             </div>
+            <div class="summary-row" id="discountRow" style="display:none;">
+              <span style="color:#4caf50;"><i class="fa-solid fa-tag"></i> Discount</span>
+              <span id="discountVal" style="color:#4caf50;">−₹0</span>
+            </div>
             <div class="summary-row">
               <span style="font-size:0.78rem;color:var(--gold);">
                 <i class="fa-solid fa-truck"></i> Free shipping on orders ₹999+
@@ -95,8 +98,9 @@
 
             <div class="promo-input">
               <input type="text" id="promoCode" placeholder="Promo code (ROOHH10)" />
-              <button class="btn btn-outline" style="padding:10px 16px;font-size:0.78rem;">Apply</button>
+              <button class="btn btn-outline" id="applyPromoBtn" style="padding:10px 16px;font-size:0.78rem;">Apply</button>
             </div>
+            <div id="promoMsg" style="font-size:0.78rem;margin-top:6px;min-height:18px;"></div>
 
             <button class="btn btn-primary full-width checkout-btn" id="checkoutBtn">
               <i class="fa-solid fa-lock"></i> Proceed to Checkout
@@ -118,11 +122,11 @@
             <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;">
               <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text-muted);">
                 <i class="fa-solid fa-rotate-left" style="color:var(--gold);width:18px;"></i>
-                <span>15-day hassle-free returns</span>
+                <span>7-day hassle-free returns</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text-muted);">
                 <i class="fa-solid fa-truck-fast" style="color:var(--gold);width:18px;"></i>
-                <span>Delivered in 3–5 business days</span>
+                <span>Delivered in 7-10 business days</span>
               </div>
               <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:var(--text-muted);">
                 <i class="fa-solid fa-gem" style="color:var(--gold);width:18px;"></i>
@@ -151,8 +155,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="nav-logo">
-            <span class="logo-arabic">رُوح</span>
-            <span class="logo-text">ROOHH</span>
+            <span class="logo"><img src="images/logo.png" alt=""></span>
           </a>
           <p class="footer-desc">Handcrafted luxury fragrances that speak to the soul.</p>
           <div class="footer-socials">
