@@ -54,9 +54,7 @@
           <i class="fa-solid fa-bag-shopping"></i>
           <span class="cart-badge" id="cartBadge">0</span>
         </a>
-        <button class="nav-icon-btn" id="userAuthBtn" aria-label="User Account">
-          <i class="fa-solid fa-user"></i>
-        </button>
+
         <button class="hamburger" id="hamburger" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -72,7 +70,9 @@
   <!-- ======= HERO SECTION ======= -->
   <section id="home" class="hero">
     <div class="hero-bg">
-      <img src="images/hero_banner.png" alt="Roohh Fragrances Hero" class="hero-img" />
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="videos/animation.mp4" type="video/mp4" />
+      </video>
       <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
@@ -89,10 +89,10 @@
         <a href="#products" class="btn btn-outline">Explore Collection</a>
       </div>
     </div>
-    <div class="hero-scroll">
+    <!-- <div class="hero-scroll">
       <span>Scroll</span>
       <div class="scroll-line"></div>
-    </div>
+    </div> -->
     <div class="hero-particles" id="heroParticles"></div>
   </section>
 
@@ -512,40 +512,7 @@
     <i class="fa-solid fa-chevron-up"></i>
   </button>
 
-  <!-- ======= AUTH MODAL (OTP) ======= -->
-  <div class="modal-overlay" id="authModal">
-    <div class="modal-card auth-card">
-      <button class="modal-close" id="authClose"><i class="fa-solid fa-xmark"></i></button>
-      <div class="auth-header">
-        <div class="auth-logo"><img src="images/logo.png" alt=""></div>
-        <h2 id="authTitle">Sign In</h2>
-        <p id="authDesc">Enter your phone number to receive a verification code.</p>
-      </div>
 
-      <!-- Step 1: Phone Input -->
-      <div id="authStep1">
-        <div class="form-group">
-          <label for="phoneInput">Phone Number</label>
-          <div class="phone-input-wrap">
-            <span class="country-code">+91</span>
-            <input type="tel" id="phoneInput" placeholder="98765 43210" maxlength="10" />
-          </div>
-        </div>
-        <button class="btn btn-primary full-width" id="sendOtpBtn">Send Verification Code</button>
-      </div>
-
-      <!-- Step 2: OTP Input -->
-      <div id="authStep2" class="hidden">
-        <div class="form-group">
-          <label for="otpInput">Enter 6-Digit Code</label>
-          <input type="text" id="otpInput" placeholder="••••••" maxlength="6" class="otp-field" />
-          <p class="resend-text">Didn't receive code? <button id="resendOtp">Resend</button></p>
-        </div>
-        <button class="btn btn-primary full-width" id="verifyOtpBtn">Verify & Login</button>
-        <button class="btn-text full-width" id="backToPhone">Change Phone Number</button>
-      </div>
-    </div>
-  </div>
 
   <script src="script.js"></script>
 </body>

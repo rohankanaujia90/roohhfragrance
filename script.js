@@ -129,114 +129,6 @@ function syncProducts(newProducts) {
   localStorage.setItem('roohh_products', JSON.stringify(PRODUCTS));
 }
 
-// ============================================
-// USER AUTHENTICATION (OTP)
-// ============================================
-let MOCK_OTP = "";
-let AUTH_PHONE = "";
-
-function getUser() {
-  return JSON.parse(localStorage.getItem('roohh_user') || 'null');
-}
-
-function initUserAuth() {
-  const authBtn = document.getElementById('userAuthBtn');
-  const modal = document.getElementById('authModal');
-  const close = document.getElementById('authClose');
-  const step1 = document.getElementById('authStep1');
-  const step2 = document.getElementById('authStep2');
-  const phoneInp = document.getElementById('phoneInput');
-  const otpInp = document.getElementById('otpInput');
-
-  if (!authBtn) return;
-
-  // Initial UI check
-  updateAuthUI();
-
-  authBtn.addEventListener('click', () => {
-    const user = getUser();
-    if (user) {
-      if (confirm(`Logged in as +91 ${user.phone}. Log out?`)) {
-        localStorage.removeItem('roohh_user');
-        updateAuthUI();
-        showToast("Logged out successfully");
-      }
-    } else {
-      modal.classList.add('active');
-      step1.classList.remove('hidden');
-      step2.classList.add('hidden');
-    }
-  });
-
-  if (close) close.addEventListener('click', () => modal.classList.remove('active'));
-
-  const sendBtn = document.getElementById('sendOtpBtn');
-  if (sendBtn) {
-    sendBtn.addEventListener('click', () => {
-      const phone = phoneInp.value.trim();
-      if (phone.length !== 10) {
-        alert("Please enter a valid 10-digit phone number");
-        return;
-      }
-      AUTH_PHONE = phone;
-      MOCK_OTP = Math.floor(100000 + Math.random() * 900000).toString();
-      
-      // Step transitions
-      step1.classList.add('hidden');
-      step2.classList.remove('hidden');
-      document.getElementById('authDesc').textContent = `Code sent to +91 ${phone}`;
-
-      // Show mock OTP in toast
-      showToast(`Verification code is: ${MOCK_OTP} (Demo)`);
-    });
-  }
-
-  const verifyBtn = document.getElementById('verifyOtpBtn');
-  if (verifyBtn) {
-    verifyBtn.addEventListener('click', () => {
-      if (otpInp.value === MOCK_OTP) {
-        localStorage.setItem('roohh_user', JSON.stringify({ phone: AUTH_PHONE }));
-        modal.classList.remove('active');
-        updateAuthUI();
-        showToast("Welcome to Roohh Fragrances!");
-      } else {
-        alert("Invalid verification code. Please try again.");
-      }
-    });
-  }
-
-  const backBtn = document.getElementById('backToPhone');
-  if (backBtn) {
-    backBtn.addEventListener('click', () => {
-      step1.classList.remove('hidden');
-      step2.classList.add('hidden');
-      document.getElementById('authDesc').textContent = "Enter your phone number to receive a verification code.";
-    });
-  }
-
-  const resendBtn = document.getElementById('resendOtp');
-  if (resendBtn) {
-    resendBtn.addEventListener('click', () => {
-      MOCK_OTP = Math.floor(100000 + Math.random() * 900000).toString();
-      showToast(`New verification code: ${MOCK_OTP}`);
-    });
-  }
-}
-
-function updateAuthUI() {
-  const user = getUser();
-  const authBtn = document.getElementById('userAuthBtn');
-  if (authBtn) {
-    if (user) {
-      authBtn.classList.add('logged-in');
-      authBtn.title = `Logged in (+91 ${user.phone})`;
-    } else {
-      authBtn.classList.remove('logged-in');
-      authBtn.title = "Login";
-    }
-  }
-}
-
 
 // ============================================
 // CART UTILITIES
@@ -394,6 +286,23 @@ function filterProductsBySearch(query) {
     const cat = card.dataset.category?.toLowerCase() || '';
     card.classList.toggle('hidden', !name.includes(query) && !cat.includes(query));
   });
+}
+
+// ============================================
+// HERO CAROUSEL
+// ============================================
+function initHeroCarousel() {
+  const slides = document.querySelectorAll('.hero-slide');
+  if (slides.length === 0) return;
+  
+  let currentSlide = 0;
+  
+  // start rotating every 6 seconds
+  setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }, 6000);
 }
 
 // ============================================
@@ -905,11 +814,6 @@ function initCartPage() {
 
   // Checkout btn
   document.getElementById('checkoutBtn')?.addEventListener('click', () => {
-    if (!getUser()) {
-      showToast("Please login to proceed to checkout");
-      document.getElementById('authModal').classList.add('active');
-      return;
-    }
     showToast('Proceeding to checkout... (Demo mode)');
   });
 }
@@ -939,22 +843,34 @@ function initCartBadge() {
 })();
 
 // ============================================
-// INIT
+// INITIALIZE EVERYTHING
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  initPreloader();
   initNavbar();
-  initParticles();
-  initCartBadge();
-  initUserAuth();
-  renderBestsellers();
-  renderAllProducts();
-  initProductFilter();
-  initModal();
+  initPreloader();
   initScrollReveal();
+  initHeroCarousel();
+  initParticles();
+  
+  if (document.getElementById('bestsellerGrid')) {
+    renderBestsellers();
+  }
+  if (document.getElementById('productsGrid')) {
+    renderAllProducts();
+    initProductFilter();
+  }
+  
+  initModal();
   initTestimonialSlider();
   initNewsletter();
   initBackToTop();
   initSmoothScroll();
-  initCartPage();
+  
+  // Update badge immediately
+  updateCartBadge();
+  
+  // Initialize cart page if we're on it
+  if (window.location.pathname.includes('cart.html')) {
+    initCartPage();
+  }
 });
