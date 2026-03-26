@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Product Details — Roohh Fragrances" />
+  <title>Product | Roohh Fragrances</title>
+  <link rel="icon" type="image/png" href="images/icon.png">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="product.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- ======= NAVBAR ======= -->
+  <nav id="navbar" class="scrolled">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo"><img src="images/logo.png" alt="Roohh Fragrances"></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#home" class="nav-link">Home</a></li>
+        <li><a href="index.html#about" class="nav-link">Our Story</a></li>
+        <li><a href="index.html#bestsellers" class="nav-link">Bestsellers</a></li>
+        <li><a href="index.html#products" class="nav-link">Collection</a></li>
+        <li><a href="index.html#testimonials" class="nav-link">Reviews</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-icon-btn cart-link" aria-label="Shopping Cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ======= PRODUCT PAGE ======= -->
+  <main class="product-page" id="productPageContent">
+
+    <!-- Breadcrumb -->
+    <div class="product-breadcrumb">
+      <div class="container">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="index.html#products">Collection</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span id="breadcrumbName">Product</span>
+      </div>
+    </div>
+
+    <!-- Product Detail -->
+    <section class="product-detail section">
+      <div class="container">
+        <div class="product-detail-grid" id="productDetailGrid">
+          <!-- Rendered by JS -->
+          <div class="pd-skeleton">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-info">
+              <div class="skeleton-line short"></div>
+              <div class="skeleton-line long"></div>
+              <div class="skeleton-line medium"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- You May Also Like -->
+    <section class="related-section section">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">Explore More</p>
+          <h2 class="section-title">You May Also <em>Like</em></h2>
+        </div>
+        <div class="products-grid" id="relatedGrid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======= FOOTER ======= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <span class="logo"><img src="images/logo.png" alt=""></span>
+          </a>
+          <p class="footer-desc">Handcrafted luxury fragrances that speak to the soul.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#bestsellers">Bestsellers</a></li>
+            <li><a href="index.html#products">Collection</a></li>
+            <li><a href="cart.html">Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Roohh Fragrances. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======= TOAST ======= -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg"></span>
+  </div>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>

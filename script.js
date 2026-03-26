@@ -363,11 +363,6 @@ function createProductCard(product) {
     <div class="product-card-img">
       ${badgeHTML}
       <img src="${product.image}" alt="${product.name}" loading="lazy" />
-      <div class="product-card-overlay">
-        <div class="overlay-btn">
-          <i class="fa-solid fa-eye"></i> Quick View
-        </div>
-      </div>
     </div>
     <div class="product-card-body">
       <p class="product-category">${product.category}</p>
@@ -383,10 +378,10 @@ function createProductCard(product) {
     </div>
   `;
 
-  // Click card → open modal
+  // Click card → go to product page
   card.addEventListener('click', (e) => {
     if (e.target.closest('.product-add-btn')) return;
-    openModal(product);
+    window.location.href = `product.html?id=${product.id}`;
   });
 
   // Quick add button
@@ -631,6 +626,133 @@ function initSmoothScroll() {
 }
 
 // ============================================
+// PRODUCT DETAIL PAGE
+// ============================================
+function initProductPage() {
+  const grid = document.getElementById('productDetailGrid');
+  if (!grid) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+  const product = PRODUCTS.find(p => p.id === id);
+
+  if (!product) {
+    grid.innerHTML = `
+      <div class="pd-not-found">
+        <i class="fa-solid fa-face-frown-open"></i>
+        <h2>Product Not Found</h2>
+        <p>This fragrance may no longer be available.</p>
+        <a href="index.html#products" class="btn btn-primary" style="margin-top:24px;">Back to Collection</a>
+      </div>
+    `;
+    return;
+  }
+
+  // Update page title and breadcrumb
+  document.title = `${product.name} | Roohh Fragrances`;
+  const breadcrumb = document.getElementById('breadcrumbName');
+  if (breadcrumb) breadcrumb.textContent = product.name;
+
+  const stars = '★'.repeat(Math.floor(product.rating)) + (product.rating % 1 >= 0.5 ? '½' : '');
+  const badgeHTML = product.badge
+    ? `<div class="pd-badge${product.badge === 'New' ? ' badge-new' : ''}">${product.badge}</div>` : '';
+
+  grid.innerHTML = `
+    <div class="pd-image-wrap">
+      ${badgeHTML}
+      <img src="${product.image}" alt="${product.name}" />
+    </div>
+    <div class="pd-info">
+      <span class="pd-category">${product.category}</span>
+      <h1 class="pd-name">${product.name}</h1>
+      <div class="pd-rating">
+        <span class="stars">${stars}</span>
+        <span>${product.reviews} reviews</span>
+      </div>
+      <div class="pd-price">₹${product.price.toLocaleString('en-IN')}</div>
+
+      <div class="pd-divider"></div>
+
+      <p class="pd-desc">${product.desc}</p>
+
+      <div class="pd-notes">
+        <div class="pd-note-row">
+          <span class="pd-note-label">Top Notes</span>
+          <span class="pd-note-val">${product.top}</span>
+        </div>
+        <div class="pd-note-row">
+          <span class="pd-note-label">Heart Notes</span>
+          <span class="pd-note-val">${product.heart}</span>
+        </div>
+        <div class="pd-note-row">
+          <span class="pd-note-label">Base Notes</span>
+          <span class="pd-note-val">${product.base}</span>
+        </div>
+      </div>
+
+      <div class="pd-size-section">
+        <p class="pd-size-label">Size</p>
+        <div class="pd-size-options">
+          <button class="pd-size-btn active" data-size="30ml">30ml</button>
+          <button class="pd-size-btn" data-size="50ml">50ml</button>
+          <button class="pd-size-btn" data-size="100ml">100ml</button>
+        </div>
+      </div>
+
+      <div class="pd-purchase">
+        <div class="pd-qty">
+          <button class="pd-qty-btn" id="pdQtyMinus">−</button>
+          <span class="pd-qty-val" id="pdQtyVal">1</span>
+          <button class="pd-qty-btn" id="pdQtyPlus">+</button>
+        </div>
+        <button class="btn btn-primary pd-add-btn" id="pdAddCart">
+          <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+        </button>
+      </div>
+
+      <div class="pd-guarantees">
+        <div class="pd-guarantee-item"><i class="fa-solid fa-rotate-left"></i><span>7-day hassle-free returns</span></div>
+        <div class="pd-guarantee-item"><i class="fa-solid fa-truck-fast"></i><span>Delivered in 7-10 business days</span></div>
+        <div class="pd-guarantee-item"><i class="fa-solid fa-gem"></i><span>100% authentic fragrance guaranteed</span></div>
+      </div>
+    </div>
+  `;
+
+  // Size selection
+  let selectedSize = product.size || '50ml';
+  grid.querySelectorAll('.pd-size-btn').forEach(btn => {
+    // Set initial active based on product default size
+    btn.classList.toggle('active', btn.dataset.size === selectedSize);
+    btn.addEventListener('click', () => {
+      grid.querySelectorAll('.pd-size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedSize = btn.dataset.size;
+    });
+  });
+
+  // Qty
+  let qty = 1;
+  document.getElementById('pdQtyMinus')?.addEventListener('click', () => {
+    if (qty > 1) { qty--; document.getElementById('pdQtyVal').textContent = qty; }
+  });
+  document.getElementById('pdQtyPlus')?.addEventListener('click', () => {
+    qty++; document.getElementById('pdQtyVal').textContent = qty;
+  });
+
+  // Add to cart
+  document.getElementById('pdAddCart')?.addEventListener('click', () => {
+    addToCart(product, selectedSize, qty);
+  });
+
+  // Render related products
+  const relatedGrid = document.getElementById('relatedGrid');
+  if (relatedGrid) {
+    const related = PRODUCTS.filter(p => p.id !== product.id).slice(0, 4);
+    related.forEach(p => relatedGrid.appendChild(createProductCard(p)));
+  }
+}
+
+// ============================================
 // CART PAGE
 // ============================================
 function initCartPage() {
@@ -714,13 +836,7 @@ function initCartPage() {
     });
   }
 
-  renderCart();
-
-  // Auto-refresh when cart changes (e.g. added from suggestions below)
-  window.addEventListener('cartUpdated', renderCart);
-
   // ---- PROMO CODE LOGIC ----
-  // Declared BEFORE renderCart() so updateOrderSummary() can safely reference them
   const PROMO_CODES = {
     'ROOHH10': { type: 'percent', value: 10,  label: '10% off' },
     'ROOHH20': { type: 'percent', value: 20,  label: '20% off' },
@@ -729,7 +845,11 @@ function initCartPage() {
 
   let activePromo = null;
 
+  // Initial render — called once after all functions are declared
   renderCart();
+
+  // Auto-refresh when cart changes (e.g. added from suggestions below)
+  window.addEventListener('cartUpdated', renderCart);
 
   function updateOrderSummary(subtotal) {
     const discountRow = document.getElementById('discountRow');
@@ -860,7 +980,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initProductFilter();
   }
   
-  initModal();
   initTestimonialSlider();
   initNewsletter();
   initBackToTop();
@@ -870,7 +989,16 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartBadge();
   
   // Initialize cart page if we're on it
-  if (window.location.pathname.includes('cart.html')) {
+  const isCartPage = window.location.pathname.includes('cart.html') ||
+                     window.location.href.includes('cart.html');
+  if (isCartPage) {
     initCartPage();
+  }
+
+  // Initialize product detail page if we're on it
+  const isProductPage = window.location.pathname.includes('product.html') ||
+                        window.location.href.includes('product.html');
+  if (isProductPage) {
+    initProductPage();
   }
 });
