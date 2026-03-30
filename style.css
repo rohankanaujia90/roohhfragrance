@@ -1444,6 +1444,7 @@ input { font-family: inherit; }
   .testimonial-card { flex: 0 0 calc(100% - 0px); margin-right: 0; }
   .section { padding: 70px 0; }
   .hero-title { font-size: clamp(2.5rem, 8vw, 4rem); }
+  .logo img { padding: 0; height: 6rem; }
   .about-stat-row { grid-template-columns: repeat(3, 1fr); }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; text-align: center; }
